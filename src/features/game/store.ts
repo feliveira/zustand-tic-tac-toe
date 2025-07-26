@@ -3,7 +3,7 @@ import { combine } from 'zustand/middleware';
 import type { Squares } from './types';
 
 const useGameStore = create(
-  combine({ squares: Array(9).fill(null) as Squares }, (set) => ({
+  combine({ squares: Array(9).fill(null) as Squares, xIsNext: true }, (set) => ({
     setSquares: (
       nextSquares: Squares | ((prev: Squares) => Squares)
     ) => {
@@ -14,6 +14,16 @@ const useGameStore = create(
             : nextSquares,
       }));
     },
+    setXIsNext: (
+      nextXIsNext: boolean | ((prev: boolean) => boolean)
+    ) => {
+        set((state) => ({
+          xIsNext:
+            typeof nextXIsNext === 'function'
+              ? nextXIsNext(state.xIsNext)
+              : nextXIsNext,
+        }))
+      },
   }))
 );
 

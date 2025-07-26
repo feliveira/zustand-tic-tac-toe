@@ -3,14 +3,18 @@ import { useGameStore } from "../../features/game/store";
 import Square from "./Square";
 
 const Board = () => {
+  const xIsNext = useGameStore((state) => state.xIsNext)
+  const setXIsNext = useGameStore((state) => state.setXIsNext)
   const squares = useGameStore((state) => state.squares);
   const setSquares = useGameStore((state) => state.setSquares);
+  const player = xIsNext ? 'X' : 'O'
 
   function handleClick(squareIndex: number) {
     if (squares[squareIndex]) return
     const nextSquares = squares.slice()
-    nextSquares[squareIndex] = 'X'
+     nextSquares[squareIndex] = player
     setSquares(nextSquares)
+    setXIsNext(!xIsNext)
   }
 
   return (
